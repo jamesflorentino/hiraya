@@ -36,6 +36,7 @@ export default class FiniteStateMachine {
    * @method register
    * @param {string} name name of the state
    * @param {Function|Object} logic logic of the state
+   * @chainable
    */
   register(name, logic) {
     if ('object' === typeof logic) {
@@ -47,6 +48,7 @@ export default class FiniteStateMachine {
     }
 
     this.states[name] = logic
+    return this
   }
 
   /**
