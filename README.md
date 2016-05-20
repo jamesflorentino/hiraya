@@ -33,17 +33,22 @@ Example code
 ```javascript
 import { Entity } from 'hiraya'
 
+// our hero
 var entity = new Entity()
 
-// register the states that will be used in the game logic
+// a basic callback for our stand state
 var stand = () => entity.velocity.set(0)
+
+// register the states that will be used in the game logic
 entity.states.register('stand', stand)
 
 // activate the states by pushing them into the entity's state machine
 entity.states.push('stand')
+
 // integrate the time elapsed
 entity.update()
-entity.active // => stand function function function function
+
+entity.active // => stand function
 ```
 
 
