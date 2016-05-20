@@ -2,15 +2,17 @@
   "name": "hiraya",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "hiraya.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register ./test/**/*.test.js"
+    "start": "gulp build",
+    "test": "mocha --compilers js:babel-register ./test/**/*.test.js",
+    "postInstall": "gulp build"
   },
   "author": "James O. Florentino <jamesflorentino@gmail.com> (http://jamesflorentino.com/)",
   "license": "MIT",
-  "babel": {
-    "presets": [
-      "es2015"
+  "browserify": {
+    "transform": [
+      "babelify"
     ]
   },
   "devDependencies": {
@@ -19,6 +21,7 @@
     "babel-register": "6.9.0",
     "chai": "3.5.0",
     "gulp-connect": "4.0.0",
+    "gulp-exit": "0.0.2",
     "mocha": "2.4.5"
   }
 }
