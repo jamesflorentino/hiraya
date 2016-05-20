@@ -51,7 +51,6 @@ entity.update()
 entity.active // => stand function
 ```
 
-
 Acknowledgment
 ==============
 
