@@ -3,7 +3,7 @@ var connect = require('gulp-connect')
 var child_exec = require('child_process').exec
 
 var path = {
-  scripts: ['./lib/**/*.js']
+  scripts: ['./src/**/*.js']
 }
 
 function docs() {
