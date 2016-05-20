@@ -1,7 +1,7 @@
 import {
   assert
 } from 'chai'
-import Entity from '../../lib/entity'
+import Entity from '../../src/entity'
 
 describe('Entity Behaviors', function() {
   describe('Entity#update', function() {

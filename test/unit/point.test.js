@@ -1,7 +1,7 @@
 import {
   assert
 } from 'chai'
-import Point from '../../lib/point'
+import Point from '../../src/point'
 
 
 describe('Point', function() {

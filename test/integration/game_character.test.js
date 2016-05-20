@@ -1,7 +1,7 @@
 import {
   assert
 } from 'chai'
-import Entity from '../../lib/entity'
+import Entity from '../../src/entity'
 
 
 describe('game character test', function() {

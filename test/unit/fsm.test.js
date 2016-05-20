@@ -1,8 +1,8 @@
 import {
   assert
 } from 'chai'
-import FiniteStateMachine from '../../lib/finite_state_machine'
-import Point from '../../lib/point'
+import FiniteStateMachine from '../../src/finite_state_machine'
+import Point from '../../src/point'
 
 describe('FiniteStateMachine', function() {
   var fsm = new FiniteStateMachine()

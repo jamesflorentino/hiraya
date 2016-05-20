@@ -1,9 +1,9 @@
 import {
   assert
 } from 'chai'
-import FiniteStateMachine from '../../lib/finite_state_machine'
-import Entity from '../../lib/entity'
-import Point from '../../lib/point'
+import FiniteStateMachine from '../../src/finite_state_machine'
+import Entity from '../../src/entity'
+import Point from '../../src/point'
 
 
 describe('Entity', function() {
