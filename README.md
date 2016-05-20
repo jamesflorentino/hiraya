@@ -1,4 +1,4 @@
-> WARNING: This framework is currently underdevelopment.
+> WARNING: This framework is currently under development.
 
 hiraya.js
 =========
@@ -8,9 +8,11 @@ A microframework for game development in javascript.
 Goals
 =====
 
-- can be easily used in any types of games from platformer, shooters, fighting, RPG, turn-based, and RPG.
-- be 100% ES6 compliant.
-- can easily be used in any existing javascript-based frameworks.
+- to be easily used in any types of games from platformer, shooters, fighting, RPG, turn-based, and RPG.
+- to be easily used in any existing javascript-based frameworks.
+- to be testable
+- to be fully 100% ES6 compliant.
+- can run headless 
 
 Features
 ========
@@ -24,6 +26,25 @@ Features
 - [ ] Player API - Handling of player attributes and events
 - [ ] Player Input API - Handling of inputs from theplayer
 - [ ] Multiplayer API - used for multiplayer
+
+Example code
+============
+
+```javascript
+import { Entity } from 'hiraya'
+
+var entity = new Entity()
+
+// register the states that will be used in the game logic
+var stand = () => entity.velocity.set(0)
+entity.states.register('stand', stand)
+
+// activate the states by pushing them into the entity's state machine
+entity.states.push('stand')
+// integrate the time elapsed
+entity.update()
+entity.active // => stand function function function function
+```
 
 
 Acknowledgment
