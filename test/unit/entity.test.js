@@ -19,26 +19,6 @@ describe('Entity', function() {
     })
   })
 
-  describe('#position', function() {
-    it('is a point', function() {
-      assert.instanceOf(
-        entity.position,
-        Point,
-        'entity.position is an instance of Point'
-      )
-    })
-  })
-
-  describe('#velocity', function() {
-    it('is a point', function() {
-      assert.instanceOf(
-        entity.velocity,
-        Point,
-        'entity.velocity is an instance of Point'
-      )
-    })
-  })
-
   describe('#update(elapsed)', function() {
     it('is a function', function() {
       assert.isFunction(entity.update)
