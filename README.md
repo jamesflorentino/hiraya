@@ -33,28 +33,26 @@ Example code
 import hiraya from 'hiraya'
 
 // our hero
-var entity = hiraya.createEntity()
+var entity = hiraya.createEntity({
+  velocity: hiraya.point()
+})
 
 // adding an attribute
 entity.stats.add('speed', 100)
 
 // a basic idle state
-var idle = hiraya.createState({
+entity.states.register('idle', {
   update() {
     entity.velocity.x = 0
   }
 })
 
-// a basic walk state
-var walk = hiraya.createState({
+// a basic walking state
+entity.states.register('walk', {
   update() {
     entity.velocity.x = 1
   }
 })
-
-// register the states that will be used in the game logic
-entity.states.register('idle', idle)
-entity.states.register('walk', walk)
 
 // activate the states by pushing them into the entity's state machine.
 entity.states.push('idle')
