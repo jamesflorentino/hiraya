@@ -1,3 +1,9 @@
+/**
+ * A state for the state machine
+ * @class State
+ * @constructor
+ * @param {Object} options properties to override
+ */
 export default class State {
   constructor(options) {
     for (var key in options) {
@@ -6,7 +12,23 @@ export default class State {
       }
     }
   }
+
+  /**
+   * called on every game tick
+   * @event update
+   * @param {Number} dt time passed since last update in seconds
+   */
   update(dt) { }
+
+  /**
+   * called when entering this state
+   * @event enter
+   */
   enter() { }
+
+  /**
+   * called when exiting this state
+   * @event exit
+   */
   exit() { }
 }

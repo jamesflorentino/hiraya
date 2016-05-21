@@ -1,5 +1,4 @@
 /**
- * description of this class
  * @class Point
  * @constructor
  * @param {Number} x
@@ -47,7 +46,7 @@ export default class Point {
    * Linear interplation
    * @method lerp
    * @param {Point} point
-   * @param {Numbewr} delta delta time elapsed
+   * @param {Number} delta delta time elapsed
    */
   lerp(point, dt) {
     if (!(point instanceof Point)) {

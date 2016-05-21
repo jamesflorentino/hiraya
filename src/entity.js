@@ -13,36 +13,23 @@ export default class Entity {
      * @property states
      * @type {FiniteStateMachine}
      */
-
     this.states = new FiniteStateMachine()
 
+    /**
+     * For managing different attributes
+     * @property stats
+     * @type {StatManager}
+     */
     this.stats = new StatManager()
-
-    /**
-     * Current coordinates
-     * @property position
-     * @type {Point}
-     */
-    this.position = new Point()
-
-    /**
-     * Current velocity
-     * @property velocity
-     * @type {Point}
-     */
-    this.velocity = new Point()
-
-
   }
 
   /**
    * Updates the entity states and other properties
    * @method update
-   * @param {Number} delta delta time passed since last update in milliseconds
+   * @param {Number} delta delta time passed since last update in seconds
    */
   update(elapsed) {
     var dt = elapsed / 1000
-    this.states.update(dt)
-    this.position.lerp(this.velocity, dt)
+    this.states.update(dt, this)
   }
 }
