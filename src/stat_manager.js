@@ -31,8 +31,10 @@ export default class StatManager {
    * @method add
    * @param {String} name
    * @param {Number} max
+   * @return {Stat}
    */
   add(name, max) {
-    this.stats[name] = new Stat(max)
+    var stat = this.stats[name] = new Stat(max)
+    return stat
   }
 }

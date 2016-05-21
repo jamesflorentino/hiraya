@@ -3,6 +3,7 @@
     "Phaser": true,
     "window": true,
     "describe": true,
+    "test": true,
     "it": true
   },
   "asi": true,

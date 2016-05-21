@@ -3,8 +3,6 @@ import {
 } from 'chai'
 import FiniteStateMachine from '../../src/finite_state_machine'
 import Entity from '../../src/entity'
-import Point from '../../src/point'
-
 
 describe('Entity', function() {
   var entity = new Entity()
