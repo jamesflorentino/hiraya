@@ -18,7 +18,7 @@ Features
 ========
 
 - [x] Entity API - The game objects/characters
-- [x] Entity StateManager API - The state handling in an entity using an [FSM design patterns](https://en.wikipedia.org/wiki/Finite-state_machine)
+- [x] Entity StateManager API - The state handling of an entity using an [FSM design pattern](https://en.wikipedia.org/wiki/Finite-state_machine)
 - [x] Entity StatManager API - e.g. health, mana, stamina, armor, etc.
 - [ ] Entity Skill API - e.g. melee, double slash, jump and shoot
 - [ ] Entity Item API - Able to store and manage items
