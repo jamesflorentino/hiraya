@@ -17,13 +17,15 @@ describe('Entity Behaviors', function() {
     it('returns to previous state', function() {
       var entity = new Entity()
       var time = 0
-      entity.states.register('stand', () => entity.velocity.set(0))
-      entity.states.register('walk-then-stand', (e, elapsed) => {
-        time += elapsed
-        if (time >= 2000) {
-          return entity.states.get('stand')
+      entity.states.register('stand', () => entity.velocity.x = 0)
+      entity.states.register('walk-then-stand', (dt) => {
+        console.log('dt', dt);
+        time += dt
+        if (time >= 2) {
+          console.log('reache his limti');
+          return true
         }
-        entity.velocity.set(1, 0)
+        entity.velocity.x = 1
       })
       entity.states.push('stand')
       entity.states.push('walk-then-stand')

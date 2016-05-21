@@ -1,13 +1,17 @@
 import Entity from './src/entity'
-import EntityState from './src/entity_state'
-import FiniteStateMachine from './src/entity_state'
+import State from './src/state'
+import Stat from './src/stat'
+import Directions from './src/directions'
 /**
  * @module hiraya
  */
-const hiraya = {
+export default {
   Entity: Entity,
-  EntityState: EntityState,
-  FiniteStateMachine: FiniteStateMachine
-}
+  State: State,
+  Stat: Stat,
 
-export default hiraya
+  createEntity: () => new Entity(),
+  createState: () => new State(),
+  createStat: (max, min) => new Stat(max, min)
+
+}

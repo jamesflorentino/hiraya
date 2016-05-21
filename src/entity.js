@@ -1,5 +1,6 @@
 import FiniteStateMachine from './finite_state_machine'
 import Point from './point'
+import StatManager from './stat_manager'
 
 /**
  * description of this class
@@ -7,7 +8,6 @@ import Point from './point'
  */
 export default class Entity {
   constructor() {
-
     /**
      * The state manager for this entity
      * @property states
@@ -15,6 +15,8 @@ export default class Entity {
      */
 
     this.states = new FiniteStateMachine()
+
+    this.stats = new StatManager()
 
     /**
      * Current coordinates
@@ -29,6 +31,8 @@ export default class Entity {
      * @type {Point}
      */
     this.velocity = new Point()
+
+
   }
 
   /**
@@ -37,7 +41,8 @@ export default class Entity {
    * @param {Number} delta delta time passed since last update in milliseconds
    */
   update(elapsed) {
-    this.states.update(this, elapsed)
-    this.position.lerp(this.velocity, elapsed/1000)
+    var dt = elapsed / 1000
+    this.states.update(dt)
+    this.position.lerp(this.velocity, dt)
   }
 }

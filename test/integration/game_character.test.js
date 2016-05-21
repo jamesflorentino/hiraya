@@ -9,8 +9,8 @@ describe('game character test', function() {
     it('updates the correct values', function() {
       var entity = new Entity()
       // add the character states
-      entity.states.register('standing', (dt, entity) => entity.velocity.set(0))
-      entity.states.register('jumping', (dt, entity) => entity.velocity.y = -1)
+      entity.states.register('standing', (dt) => entity.velocity.x = 0)
+      entity.states.register('jumping', (dt) => entity.velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
@@ -27,20 +27,24 @@ describe('game character test', function() {
     it('updates the correct values', function() {
       var entity = new Entity()
       // add the character states
-      entity.states.register('standing', (dt, entity) => entity.velocity.set(0))
-      entity.states.register('moving', (dt, entity) => entity.velocity.x = 1)
-      entity.states.register('jumping', (dt, entity) => entity.velocity.y = -1)
+      entity.states.register('standing', (dt) => entity.velocity.x = 0)
+      entity.states.register('moving', (dt) => entity.velocity.x = 1)
+      entity.states.register('jumping', (dt) => entity.velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
       entity.states.update(1, entity)
+      console.log(entity.velocity);
 
       entity.states.push('moving')
       entity.states.update(1, entity)
+      console.log(entity.velocity);
 
       entity.states.push('jumping')
       entity.states.update(1, entity)
+      console.log(entity.velocity);
 
+      assert.equal(entity.states.stack.length, 3)
       assert.equal(entity.velocity.y, -1)
       assert.equal(entity.velocity.x, 1)
     })

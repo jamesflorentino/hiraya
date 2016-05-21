@@ -2,6 +2,7 @@
  * description of this class
  * @class EntityState
  * @constructor
+ * @param {object} options
  */
 module.exports = class EntityState {
   /**

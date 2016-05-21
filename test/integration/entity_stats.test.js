@@ -20,8 +20,8 @@ describe('Entity Stats', function() {
     })
 
     it('can be used to reduce health', function() {
-      var health = entity.get('health')
-      var attack = entity.get('attack')
+      var health = entity.stats.get('health')
+      var attack = entity.stats.get('attack')
       health.subtract(attack)
       assert.equal(health.value, 90)
     })

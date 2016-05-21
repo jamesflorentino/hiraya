@@ -7,7 +7,7 @@ var path = {
 }
 
 function docs() {
-  child_exec('yuidoc ./')
+  child_exec('yuidoc ./src')
 }
 
 function server() {

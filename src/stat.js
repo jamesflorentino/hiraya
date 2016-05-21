@@ -27,6 +27,18 @@ export default class Stat {
     this.value = this.max
   }
 
+  increase(amount) {
+    this.value = Math.min(this.max, this.value + amount)
+  }
+
+  isMaxed() {
+    return this.value === this.max
+  }
+
+  reset() {
+    this.value = this.min
+  }
+
   /**
    * @method add
    * @param {Stat} stat

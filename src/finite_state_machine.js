@@ -1,3 +1,4 @@
+import State from './state'
 /**
  * description of this class
  * @class FiniteStateMachine
@@ -22,7 +23,7 @@ export default class FiniteStateMachine {
 
     /**
      * currently active state
-     * @type {Function}
+     * @type {String}
      */
     this.active = null
   }
@@ -57,26 +58,39 @@ export default class FiniteStateMachine {
    * @param {string} name name of the registered state to be stacked
    */
   push(name) {
-    // if (!name) { throw new Error('name is needed to register') }
     var state = this.states[name]
     if (!state) {
       throw new Error(`${name} is not a valid registered state`)
     }
-    if (this.stack[0] === name) {
+    if (this.active === name) {
       return
     }
-    this.stack.unshift(name)
-    this.active = state
+    this.stack.push(name)
+    var state = this.states[name]
+    if (state instanceof State) {
+      state.enter()
+    }
+    this.active = name
   }
 
   /**
-   * Removes the current active state
    * @method pop
+   * @param {String} name
    */
-  pop() {
-    this.stack.shift()
-    var fn = this.states[this.stack[0]]
-    this.active = fn
+  pop(name) {
+    if ('string' !== typeof name) {
+      this.stack.pop()
+    } else {
+      var index = this.stack.indexOf(name)
+      if (index > -1) {
+        this.stack.splice(index, 1)
+        var state = this.states[name]
+        if (state.exit && state.exit.call) {
+          state.exit()
+        }
+      }
+    }
+    this.active = this.stack[this.stack.length-1]
   }
 
   /**
@@ -84,19 +98,22 @@ export default class FiniteStateMachine {
    * @method update
    */
   update() {
-    var update;
-    if ('function' === typeof this.active.update) {
-      update = this.active.update
-    } else if ('function' === typeof this.active) {
-      update = this.active
-    } else {
-      throw new Error(`state is not a function nor an object with an .update() method`)
-    }
-    var newState = update.apply(this, arguments)
-    if ('string' === typeof newState) {
-      var state = this.states[newState]
-      if ('function' === typeof state) {
-        this.active = this.states[newState]
+    for (var i = 0, len = this.stack.length; i < len; i++) {
+      var name = this.stack[i]
+      var state = this.states[name]
+      if (!state) {
+        throw new Error(`"${name}" state name is not registered`)
+      }
+
+      if ('object' === typeof state && 'function' !== typeof state.update) {
+        throw new Error(`"${name}" state is not an object with an .update() method`)
+      }
+
+      var fn = 'function' === typeof state.update ? state.update : state
+
+      var completed = fn.apply(state, arguments)
+      if (completed === true) {
+        this.stack.splice(i, 1)
       }
     }
   }

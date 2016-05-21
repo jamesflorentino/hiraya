@@ -6,8 +6,17 @@
  * @param {Number} y
  */
 export default class Point {
-  constructor(x, y) {
+  constructor(x=0, y=0) {
+    /**
+     * @property x
+     * @type {Number}
+     */
     this.x = 'number' === typeof x ? x : 0
+
+    /**
+     * @property y
+     * @type {Number}
+     */
     this.y = 'number' === typeof y ? y : 0
   }
 

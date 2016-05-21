@@ -27,14 +27,14 @@ describe('FiniteStateMachine', function() {
       var standing = () => {}
       fsm.register('standing', standing)
       fsm.push('standing')
-      assert.equal(standing, fsm.active)
+      assert.equal('standing', fsm.active)
     })
 
     it('sets the recently stacked state as the active state', function() {
       var walking = () => {}
       fsm.register('walking', walking)
       fsm.push('walking')
-      assert.equal(walking, fsm.active)
+      assert.equal('walking', fsm.active)
     })
 
     it('throws an error if state name is not registered', function() {
