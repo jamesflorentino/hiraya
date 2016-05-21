@@ -10,8 +10,8 @@ export default {
   State: State,
   Stat: Stat,
 
-  createEntity: () => new Entity(),
-  createState: () => new State(),
+  createEntity: (options) => new Entity(options),
+  createState: (options) => new State(options),
   createStat: (max, min) => new Stat(max, min)
 
 }

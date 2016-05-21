@@ -18,9 +18,8 @@ Features
 ========
 
 - [x] Entity API - The game objects/characters
-- [x] FiniteStateMachine API - The state management design pattern used
-- [ ] Entity State API - The state handling in an entity
-- [ ] Entity Attribute API - e.g. health, mana, stamina, armor, etc.
+- [x] Entity StateManager API - The state handling in an entity using an [FSM design patterns](https://en.wikipedia.org/wiki/Finite-state_machine)
+- [x] Entity StatManager API - e.g. health, mana, stamina, armor, etc.
 - [ ] Entity Skill API - e.g. melee, double slash, jump and shoot
 - [ ] Entity Item API - Able to store and manage items
 - [ ] Player API - Handling of player attributes and events
@@ -31,24 +30,38 @@ Example code
 ============
 
 ```javascript
-import { Entity } from 'hiraya'
+import hiraya from 'hiraya'
 
 // our hero
-var entity = new Entity()
+var entity = hiraya.createEntity()
 
-// a basic callback for our stand state
-var stand = () => entity.velocity.set(0)
+// adding an attribute
+entity.stats.add('speed', 100)
+
+// a basic idle state
+var idle = hiraya.createState({
+  update() {
+    entity.velocity.x = 0
+  }
+})
+
+// a basic walk state
+var walk = hiraya.createState({
+  update() {
+    entity.velocity.x = 1
+  }
+})
 
 // register the states that will be used in the game logic
-entity.states.register('stand', stand)
+entity.states.register('idle', idle)
+entity.states.register('walk', walk)
 
-// activate the states by pushing them into the entity's state machine
-entity.states.push('stand')
+// activate the states by pushing them into the entity's state machine.
+entity.states.push('idle')
+entity.states.push('walk')
 
 // integrate the time elapsed
-entity.update()
-
-entity.active // => stand function
+entity.update() // idle() -> walk()
 ```
 
 Acknowledgment
