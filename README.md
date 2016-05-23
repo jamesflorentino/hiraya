@@ -26,8 +26,43 @@ Features
 - [ ] Player Input API - Handling of inputs from theplayer
 - [ ] Multiplayer API - used for multiplayer
 
-Example code
-============
+Quick Example Usage
+===================
+
+```javascript
+import hiraya from 'hiraya'
+
+var world = hiraya.world()
+
+class BattleState extends hiraya.State {
+  enter() {
+    this.target = options.target
+  }
+  update(entity) {
+    this.target.stats.get('health').reduce(entity.stats.get('attack'))
+  }
+}
+
+world.states.register('battle', BattleState)
+
+var hero = world.createEntity({
+  "stats": { "health": 100, "attack": 10 },
+  "states": ["battle"]
+})
+
+var monster = world.createEntity({
+  "stats": { "health": 50, "attack": 5 },
+  "states": ["battle"]
+})
+
+// battle time!
+hero.states.push('battle', monster)
+
+world.update(1)
+```
+
+Code explained
+==============
 
 ```javascript
 import hiraya from 'hiraya'
