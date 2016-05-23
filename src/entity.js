@@ -1,6 +1,8 @@
 import FiniteStateMachine from './finite_state_machine'
 import StatManager from './stat_manager'
 import MutableClass from './mutable_class'
+
+var ID = 0
 // import isFunction from './util/is_function'
 
 /**
@@ -23,6 +25,7 @@ export default class Entity extends MutableClass {
      * @type {StatManager}
      */
     this.stats = new StatManager()
+    this.id = ID++
   }
 
   /**
