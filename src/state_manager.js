@@ -1,10 +1,10 @@
 import State from './state'
 /**
  * description of this class
- * @class FiniteStateMachine
+ * @class StateManager
  * @constructor
  */
-export default class FiniteStateMachine {
+export default class StateManager {
 
   constructor() {
     /**
@@ -47,29 +47,9 @@ export default class FiniteStateMachine {
    * @method add
    * @param {string} name name of the state
    * @param {Function|Object} logic logic of the state
-   * @deprecated
-   */
-  add(name, logic) {
-    if ('object' === typeof logic) {
-      if ('function' !== typeof logic.update) {
-        throw new Error(`a state object must have an .update() method`)
-      }
-    } else if ('function' !== typeof logic) {
-      throw new Error(`a state must at least be a function`)
-    }
-
-    this.states[name] = logic
-    return this
-  }
-
-  /**
-   * @method register
-   * @param {string} name name of the state
-   * @param {Function|Object} logic logic of the state
-   * @deprecated
    * @chainable
    */
-  register(name, logic) {
+  add(name, logic) {
     if ('object' === typeof logic) {
       if ('function' !== typeof logic.update) {
         throw new Error(`a state object must have an .update() method`)

@@ -1,4 +1,4 @@
-import FiniteStateMachine from './finite_state_machine'
+import FiniteStateMachine from './state_manager'
 import StatManager from './stat_manager'
 import MutableClass from './mutable_class'
 

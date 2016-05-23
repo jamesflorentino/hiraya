@@ -9,8 +9,8 @@ describe('Entity Behaviors', () => {
     it('updates the properties of the entity', () => {
       var entity = new Entity()
       var velocity = new Point()
-      entity.states.register('stand', () => velocity.set(0))
-      entity.states.register('walk', () => velocity.set(1, 0))
+      entity.states.add('stand', () => velocity.set(0))
+      entity.states.add('walk', () => velocity.set(1, 0))
       entity.states.push('walk')
       entity.update(1) // 1 second
       assert.equal(velocity.x, 1)
@@ -20,8 +20,8 @@ describe('Entity Behaviors', () => {
       var entity = new Entity()
       var velocity = new Point()
       var time = 0
-      entity.states.register('stand', () => velocity.x = 0)
-      entity.states.register('walk-then-stand', (entity, dt) => {
+      entity.states.add('stand', () => velocity.x = 0)
+      entity.states.add('walk-then-stand', (entity, dt) => {
         time += dt
         if (time >= 2) {
           return true

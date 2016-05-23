@@ -11,8 +11,8 @@ describe('game character test', function() {
       var entity = new Entity()
       var velocity = new Point()
         // add the character states
-      entity.states.register('standing', () => velocity.x = 0)
-      entity.states.register('jumping', () => velocity.y = -1)
+      entity.states.add('standing', () => velocity.x = 0)
+      entity.states.add('jumping', () => velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
@@ -30,9 +30,9 @@ describe('game character test', function() {
       var entity = new Entity()
       var velocity = new Point()
         // add the character states
-      entity.states.register('standing', () => velocity.x = 0)
-      entity.states.register('moving', () => velocity.x = 1)
-      entity.states.register('jumping', () => velocity.y = -1)
+      entity.states.add('standing', () => velocity.x = 0)
+      entity.states.add('moving', () => velocity.x = 1)
+      entity.states.add('jumping', () => velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
