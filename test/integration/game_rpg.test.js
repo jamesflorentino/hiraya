@@ -8,8 +8,7 @@ describe('an rpg world', () => {
   var world = hiraya.world()
 
   class DeathState extends hiraya.State {
-
-    enter() {
+    onEnter() {
       this.status = 'dead'
     }
   }
@@ -19,18 +18,27 @@ describe('an rpg world', () => {
       this.cooldown = new hiraya.Stat(1)
     }
 
-    enter(target) {
-      this.next = 'death'
+    onEnter(target) {
+      console.log('entering...');
       this.cooldown.empty()
       this.target = target
     }
 
-    update(entity) {
+    onExit() {
+      this.target = null
+    }
+
+    update(entity, dt) {
+      this.cooldown.increase(dt)
+      if (!this.cooldown.isMaxed()) {
+        return
+      }
       var healthStat = this.target.stats.get('health')
       var attackStat = entity.stats.get('attack')
       healthStat.subtract(attackStat)
       if (healthStat.isEmpty()) {
-        return this.next
+        this.target.states.push('death')
+        this.exit()
       }
     }
   }
@@ -41,8 +49,11 @@ describe('an rpg world', () => {
   describe('has a character with stats and states', () => {
     world.hero = world.createEntity({
       name: 'Hero',
-      stats: { health: 100, attack: 10 },
-      states: [ 'death', 'battle' ]
+      stats: {
+        health: 100,
+        attack: 10
+      },
+      states: ['death', 'battle']
     })
 
     it('who exists in the game world', () => {
@@ -82,8 +93,11 @@ describe('an rpg world', () => {
 
     world.monster = world.createEntity({
       name: 'Hero',
-      stats: { health: 100, attack: 10 },
-      states: [ 'death', 'battle' ]
+      stats: {
+        health: 100,
+        attack: 10
+      },
+      states: ['death', 'battle']
     })
 
     it('who exists in the game world', () => {
@@ -109,9 +123,41 @@ describe('an rpg world', () => {
       )
     })
 
-    it.skip('that switches the entity state appropriately', () => {
-      world.update(1000)
+    it('that switches the entity state appropriately', () => {
+      world.update(1)
+      assert.equal(world.hero.states.stack.length, 0)
       assert.equal(world.monster.states.active, 'death')
     })
+
+    it('that does not stack similar states', () => {
+      var monster = world.createEntity({
+        name: 'Big Monster',
+        stats: {
+          health: 1000,
+          attack: 10
+        },
+        states: ['death', 'battle']
+      })
+      world.hero.states.push('battle', monster)
+      assert.equal(world.hero.states.stack.length, 1)
+    })
+
+    it('that re-assigns parameters to existing stacks', () => {
+      var hero = world.hero
+      var bat = world.createEntity({
+        name: 'Bat',
+        stats: {
+          health: 1000,
+          attack: 10
+        },
+        states: ['death', 'battle']
+      })
+
+      hero.states.push('battle', bat)
+
+      assert.equal(hero.states.get('battle').target, bat)
+
+    })
+
   })
 })

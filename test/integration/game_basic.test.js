@@ -2,7 +2,6 @@ import {
   assert
 } from 'chai'
 import hiraya from '../../hiraya'
-const { eachKey, isObject } = hiraya.util
 
 describe('a basic game world', () => {
   var world = hiraya.world()
@@ -14,7 +13,7 @@ describe('a basic game world', () => {
 
   it('can register and store state classes', () => {
     class JumpState extends hiraya.State {
-      enter() {
+      onEnter() {
         this.time = 0
         this.speed = 1
       }
