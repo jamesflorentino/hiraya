@@ -90,17 +90,23 @@ export default class FiniteStateMachine {
    */
   push(name, data) {
     var state = this.states[name]
+
     if (!state) {
       throw new Error(`${name} is not a valid registered state`)
     }
+
     if (this.active === name) {
-      return
+      state = this.getActive(this.active)
+    } else {
+      this.stack.push(name)
+      this.active = name
     }
-    this.stack.push(name)
+
+
     if (state instanceof State) {
-      state.enter(data)
+      state.onEnter(data)
     }
-    this.active = name
+
   }
 
   /**
@@ -116,7 +122,7 @@ export default class FiniteStateMachine {
         this.stack.splice(index, 1)
         var state = this.states[name]
         if (state instanceof State) {
-          state.exit()
+          state.onExit()
         }
       }
     }
@@ -141,12 +147,12 @@ export default class FiniteStateMachine {
 
       var fn = 'function' === typeof state.update ? state.update : state
 
-      var next = fn.apply(state, arguments)
+      fn.apply(state, arguments)
 
-      if ('string' === typeof 'next') {
-        if (!!this.get(next)) {
-          this.pop(name)
-          this.push(next)
+      if (state.isExiting) {
+        this.pop(name)
+        if (state.next) {
+          this.push(state.next)
         }
       }
     }

@@ -12,17 +12,31 @@ class State extends MutableClass {
   update(/**dt**/) { }
 
   /**
-   * called when entering this state
-   * @event enter
+   * @method enter
    * @param {Object} context data to be passed to the enter state
    */
-  enter() { }
+  enter() {
+    this.isExiting = false
+  }
 
   /**
-   * called when exiting this state
-   * @event exit
+   * @method exit
+   * @params {String} next next state to transition to
    */
-  exit() { }
+  exit(next) {
+    this.next = next
+    this.isExiting = true
+  }
+
+  /**
+   * @event onEnter
+   */
+  onEnter() { }
+
+  /**
+   * @event onExit
+   */
+  onExit() { }
 }
 
 State.create = (options) => new State(options)
