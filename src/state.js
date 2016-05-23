@@ -1,28 +1,20 @@
+import MutableClass from './mutable_class'
 /**
  * A state for the state machine
  * @class State
- * @constructor
- * @param {Object} options properties to override
  */
-export default class State {
-  constructor(options) {
-    for (var key in options) {
-      if (options.hasOwnProperty(key)) {
-        this[key] = options[key]
-      }
-    }
-  }
-
+class State extends MutableClass {
   /**
    * called on every game tick
-   * @event update
-   * @param {Number} dt time passed since last update in seconds
+   * @method update
+   * @return {String}
    */
-  update(dt) { }
+  update(/**dt**/) { }
 
   /**
    * called when entering this state
    * @event enter
+   * @param {Object} context data to be passed to the enter state
    */
   enter() { }
 
@@ -32,3 +24,7 @@ export default class State {
    */
   exit() { }
 }
+
+State.create = (options) => new State(options)
+
+export default State

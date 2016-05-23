@@ -3,7 +3,8 @@
     "Phaser": true,
     "window": true,
     "describe": true,
-    "test": true,
+    "before": true,
+    "after": true,
     "it": true
   },
   "asi": true,
@@ -24,6 +25,5 @@
   "unused": true,
   "strict": false,
   "trailing": true,
-  "smarttabs": true,
   "white": true
 }

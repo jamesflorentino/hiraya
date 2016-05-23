@@ -10,9 +10,9 @@ describe('game character test', function() {
     it('updates the correct values', function() {
       var entity = new Entity()
       var velocity = new Point()
-      // add the character states
-      entity.states.register('standing', (dt) => velocity.x = 0)
-      entity.states.register('jumping', (dt) => velocity.y = -1)
+        // add the character states
+      entity.states.register('standing', () => velocity.x = 0)
+      entity.states.register('jumping', () => velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
@@ -29,10 +29,10 @@ describe('game character test', function() {
     it('updates the correct values', function() {
       var entity = new Entity()
       var velocity = new Point()
-      // add the character states
-      entity.states.register('standing', (dt) => velocity.x = 0)
-      entity.states.register('moving', (dt) => velocity.x = 1)
-      entity.states.register('jumping', (dt) => velocity.y = -1)
+        // add the character states
+      entity.states.register('standing', () => velocity.x = 0)
+      entity.states.register('moving', () => velocity.x = 1)
+      entity.states.register('jumping', () => velocity.y = -1)
 
       // load the standing states
       entity.states.push('standing')
@@ -48,6 +48,6 @@ describe('game character test', function() {
       assert.equal(velocity.y, -1)
       assert.equal(velocity.x, 1)
     })
-    
+
   })
 })

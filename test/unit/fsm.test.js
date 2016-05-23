@@ -1,6 +1,4 @@
-import {
-  assert
-} from 'chai'
+import { assert } from 'chai'
 import FiniteStateMachine from '../../src/finite_state_machine'
 import Point from '../../src/point'
 

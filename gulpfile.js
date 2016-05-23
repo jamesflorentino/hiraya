@@ -1,9 +1,12 @@
 var gulp = require('gulp')
 var connect = require('gulp-connect')
 var child_exec = require('child_process').exec
+var mocha = require('gulp-mocha')
+require('babel-register')
 
 var path = {
-  scripts: ['./src/**/*.js']
+  tests: [`./test/**/*.test.js`],
+  scripts: [`./src/**/*.js`],
 }
 
 function docs() {
@@ -17,15 +20,26 @@ function server() {
 }
 
 function watch() {
-  gulp.watch(path.scripts, ['docs'])
+  gulp.watch([path.scripts[0], path.tests[0]], ['docs', 'test'])
+}
+
+function test() {
+  return gulp.src(path.tests, {
+      read: false
+    })
+    .pipe(mocha({
+      reporter: 'nyan',
+      verbose: true,
+      require: ['babel-register']
+    }))
 }
 
 gulp.task('docs', function() {
-  console.log('yo')
   docs()
 })
 
-gulp.task('server', server)
-gulp.task('watch', watch)
+gulp.task('test', test)
 gulp.task('docs', docs)
-gulp.task('default', ['docs', 'server', 'watch'])
+gulp.task('watch', watch)
+gulp.task('server', server)
+gulp.task('default', ['server', 'watch'])

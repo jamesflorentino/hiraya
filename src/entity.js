@@ -1,13 +1,15 @@
 import FiniteStateMachine from './finite_state_machine'
-import Point from './point'
 import StatManager from './stat_manager'
+import MutableClass from './mutable_class'
+// import isFunction from './util/is_function'
 
 /**
  * description of this class
  * @class Entity
+ * @extends MutableClass
  */
-export default class Entity {
-  constructor() {
+export default class Entity extends MutableClass {
+  init() {
     /**
      * The state manager for this entity
      * @property states
@@ -28,8 +30,7 @@ export default class Entity {
    * @method update
    * @param {Number} delta delta time passed since last update in seconds
    */
-  update(elapsed) {
-    var dt = elapsed / 1000
-    this.states.update(dt, this)
+  update(dt) {
+    this.states.update(this, dt)
   }
 }

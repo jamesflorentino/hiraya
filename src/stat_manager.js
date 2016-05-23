@@ -37,4 +37,8 @@ export default class StatManager {
     var stat = this.stats[name] = new Stat(max)
     return stat
   }
+
+  addMultiple(array) {
+    array.forEach(this.add, this)
+  }
 }

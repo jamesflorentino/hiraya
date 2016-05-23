@@ -11,7 +11,7 @@ export default class Stat {
      * @property max
      * @type {Number}
      */
-    this.max = 'number' === typeof max  ? max : 0
+    this.max = 'number' === typeof max ? max : 0
 
     /**
      * @property min
@@ -29,7 +29,7 @@ export default class Stat {
 
   /**
    * @method increase
-   * @param {Number} amount 
+   * @param {Number} amount
    */
   increase(amount) {
     this.value = Math.min(this.max, this.value + amount)
@@ -44,11 +44,37 @@ export default class Stat {
   }
 
   /**
-   * sets the current value to min
+   * @method isEmpty
+   * @return {Boolean}
+   */
+  isEmpty() {
+    return this.value === this.min
+  }
+
+  /**
+   * sets the current value to max
    * @method reset
+   * @chainable
    */
   reset() {
+    this.value = this.max
+    return this
+  }
+
+  empty() {
     this.value = this.min
+    return this
+  }
+
+  /**
+   * sets the max value
+   * @method setMax
+   * @param {Number} value value to be set to max
+   * @chainable
+   */
+  setMax(value) {
+    this.max = value
+    return this
   }
 
   /**
@@ -58,11 +84,19 @@ export default class Stat {
   add(stat) {
     this.value = Math.min(this.max, this.value + stat.value)
   }
+
   /**
    * @method subtract
    * @param {Stat} stat
    */
   subtract(stat) {
-    this.value = Math.max(this.min, this.value - stat.value)
+    this.value -= stat.value
+    if (this.value < this.min) {
+      this.value = this.min
+    }
+  }
+
+  reduce() {
+    this.subtract.apply(this, arguments)
   }
 }

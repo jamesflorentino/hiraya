@@ -5,7 +5,7 @@
  * @param {Number} y
  */
 export default class Point {
-  constructor(x=0, y=0) {
+  constructor(x, y) {
     /**
      * @property x
      * @type {Number}

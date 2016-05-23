@@ -26,17 +26,47 @@ export default class FiniteStateMachine {
      * @type {String}
      */
     this.active = null
+
+    this.add('default', new State())
+
   }
 
   get(name) {
     return this.states[name]
   }
 
+  getActive(name) {
+    if (this.stack.indexOf(name) === -1) {
+      return
+    }
+    return this.states[name]
+  }
+
   /**
-   * description of this method
+   * Registers a state into the state machine
+   * @method add
+   * @param {string} name name of the state
+   * @param {Function|Object} logic logic of the state
+   * @deprecated
+   */
+  add(name, logic) {
+    if ('object' === typeof logic) {
+      if ('function' !== typeof logic.update) {
+        throw new Error(`a state object must have an .update() method`)
+      }
+    } else if ('function' !== typeof logic) {
+      throw new Error(`a state must at least be a function`)
+    }
+
+    this.states[name] = logic
+    return this
+  }
+
+  /**
    * @method register
    * @param {string} name name of the state
    * @param {Function|Object} logic logic of the state
+   * @deprecated
    * @chainable
    */
   register(name, logic) {
@@ -56,8 +86,9 @@ export default class FiniteStateMachine {
    * Adds a registered state to the stack
    * @method push
    * @param {string} name name of the registered state to be stacked
+   * @param {Object} context
    */
-  push(name) {
+  push(name, data) {
     var state = this.states[name]
     if (!state) {
       throw new Error(`${name} is not a valid registered state`)
@@ -66,9 +97,8 @@ export default class FiniteStateMachine {
       return
     }
     this.stack.push(name)
-    var state = this.states[name]
     if (state instanceof State) {
-      state.enter()
+      state.enter(data)
     }
     this.active = name
   }
@@ -85,7 +115,7 @@ export default class FiniteStateMachine {
       if (index > -1) {
         this.stack.splice(index, 1)
         var state = this.states[name]
-        if (state.exit && state.exit.call) {
+        if (state instanceof State) {
           state.exit()
         }
       }
@@ -111,9 +141,13 @@ export default class FiniteStateMachine {
 
       var fn = 'function' === typeof state.update ? state.update : state
 
-      var completed = fn.apply(state, arguments)
-      if (completed === true) {
-        this.stack.splice(i, 1)
+      var next = fn.apply(state, arguments)
+
+      if ('string' === typeof 'next') {
+        if (!!this.get(next)) {
+          this.pop(name)
+          this.push(next)
+        }
       }
     }
   }
