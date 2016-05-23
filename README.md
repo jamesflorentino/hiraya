@@ -31,31 +31,22 @@ Quick Example Usage
 
 ```javascript
 import hiraya from 'hiraya'
+import BattleState from './BattleState'
 
-var world = hiraya.world()
-
-class BattleState extends hiraya.State {
-  enter() {
-    this.target = options.target
-  }
-  update(entity) {
-    this.target.stats.get('health').reduce(entity.stats.get('attack'))
-  }
-}
+let world = new hiraya.World()
 
 world.states.register('battle', BattleState)
 
-var hero = world.createEntity({
+let hero = world.createEntity({
   "stats": { "health": 100, "attack": 10 },
   "states": ["battle"]
 })
 
-var monster = world.createEntity({
+let monster = world.createEntity({
   "stats": { "health": 50, "attack": 5 },
   "states": ["battle"]
 })
 
-// battle time!
 hero.states.push('battle', monster)
 
 world.update(1)
