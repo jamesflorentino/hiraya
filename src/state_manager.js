@@ -68,7 +68,7 @@ export default class StateManager {
    * @param {string} name name of the registered state to be stacked
    * @param {Object} context
    */
-  push(name, data) {
+  push(name) {
     var state = this.states[name]
 
     if (!state) {
@@ -82,9 +82,9 @@ export default class StateManager {
       this.active = name
     }
 
-
     if (state instanceof State) {
-      state.onEnter(data)
+      var params = Array.prototype.slice.call(arguments, 1, arguments.length)
+      state.onEnter.apply(state, params)
     }
 
   }

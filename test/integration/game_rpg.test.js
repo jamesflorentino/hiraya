@@ -7,12 +7,6 @@ describe('an rpg world', () => {
 
   var world = hiraya.world()
 
-  class DeathState extends hiraya.State {
-    onEnter() {
-      this.status = 'dead'
-    }
-  }
-
   class BattleState extends hiraya.State {
     init() {
       this.cooldown = new hiraya.Stat(1)
@@ -43,8 +37,14 @@ describe('an rpg world', () => {
     }
   }
 
-  world.states.register('death', DeathState)
-  world.states.register('battle', BattleState)
+  describe('can register states', () => {
+    world.states.register('death', {
+      onEnter() {
+        this.say = 'I am dead'
+      }
+    })
+    world.states.register('battle', BattleState)
+  })
 
   describe('has a character with stats and states', () => {
     world.hero = world.createEntity({
@@ -127,6 +127,7 @@ describe('an rpg world', () => {
       world.update(1)
       assert.equal(world.hero.states.stack.length, 0)
       assert.equal(world.monster.states.active, 'death')
+      assert.equal(world.monster.states.getActive('death').say, 'I am dead')
     })
 
     it('that does not stack similar states', () => {
@@ -156,8 +157,6 @@ describe('an rpg world', () => {
       hero.states.push('battle', bat)
 
       assert.equal(hero.states.get('battle').target, bat)
-
     })
-
   })
 })

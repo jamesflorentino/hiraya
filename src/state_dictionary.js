@@ -1,5 +1,4 @@
 import State from './state'
-import extend from './util/extend'
 
 /**
  * Used for storing {{#crossLink "State"}}{{/crossLink}} classes and subclasses
@@ -55,6 +54,11 @@ export default class StateDictionary {
     //     // if true, then keep as is. If not, extend it
     //   state = isSubclassOfState ? state : extend(State, state.prototype)
     // }
+    if ('object' === typeof StateClass) {
+      var StateSubclass = function() {}
+      StateSubclass.prototype = new State(StateClass)
+      StateClass = StateSubclass
+    }
     var isSubclassOfState = StateClass.prototype instanceof State
     if (!isSubclassOfState) {
       throw new Error(`${name} should be a subclass of State`)
