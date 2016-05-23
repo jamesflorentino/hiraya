@@ -22,13 +22,13 @@ export default class World extends MutableClass {
     var entity = new Entity()
     if (isObject(options)) {
       eachKey(options, (key, value) => {
-        if (key === 'states' && isArray(value)) {
+        if (key === 'name') {
+          entity.name = value
+        } else if (key === 'states' && isArray(value)) {
           value.forEach((name) => {
             entity.states.add(name, this.states.create(name))
           })
-        }
-
-        if (key === 'stats' && isObject(value)) {
+        } else if (key === 'stats' && isObject(value)) {
           eachKey(value, entity.stats.add, entity.stats)
         }
       })
@@ -43,13 +43,19 @@ export default class World extends MutableClass {
    * @param  {Number} dt time passed since last update
    */
   update(dt) {
-    var {
-      list
-    } = this.entities;
-    for (var i = 0; i < list.length; i++) {
-      var entity = list[i]
-      entity.update(dt)
-      this.applySystems(entity, dt)
+    var fps = 1 / 30
+    var list = this.entities.list;
+
+    // semi-fixed time-step:
+    // http://gafferongames.com/game-physics/fix-your-timestep/
+    while (dt > 0) {
+      var frameTime = dt > fps ? fps : dt
+      for (var i = 0, len = list.length; i < len; i++) {
+        var entity = list[i]
+        entity.update(frameTime)
+        this.applySystems(entity, frameTime)
+      }
+      dt = dt - fps
     }
   }
 
