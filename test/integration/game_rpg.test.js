@@ -13,7 +13,6 @@ describe('an rpg world', () => {
     }
 
     onEnter(target) {
-      console.log('entering...');
       this.cooldown.empty()
       this.target = target
     }

@@ -50,43 +50,58 @@ export default class StateManager {
    * @chainable
    */
   add(name, logic) {
-    if ('object' === typeof logic) {
-      if ('function' !== typeof logic.update) {
-        throw new Error(`a state object must have an .update() method`)
-      }
-    } else if ('function' !== typeof logic) {
-      throw new Error(`a state must at least be a function`)
+    var state
+    if (!logic) {
+      throw new Error(`${name} cannot be null or undefined`)
+    } else if (logic instanceof State) {
+      state = logic
+    } else if ('object' === typeof logic) {
+      state = new State(logic)
+    } else if ('function' === typeof logic) {
+      state = new State({ update: logic })
+    } else {
+      throw new Error(`${name} is an invalid state`)
     }
+    state.name = name
 
-    this.states[name] = logic
+    this.states[name] = state
     return this
   }
 
   /**
-   * Adds a registered state to the stack
+   * Adds a state to the stack
    * @method push
-   * @param {string} name name of the registered state to be stacked
+   * @param {String|State} name name of a registered state or a new property
    * @param {Object} context
    */
   push(name) {
-    var state = this.states[name]
-
-    if (!state) {
-      throw new Error(`${name} is not a valid registered state`)
+    var state;
+    if ('string' === typeof name) {
+      state = this.states[name]
+      if (!(state instanceof State)) {
+        throw new Error(`${name} is not a valid registered state`)
+      }
+    } else if (name instanceof State) {
+      if ('string' !== typeof name.name) {
+        throw new Error(`state must have a name`)
+      }
+    } else if ('object' === typeof name) {
+      state = new State(name)
     }
 
-    if (this.active === name) {
+    if (!state.name) {
+      throw new Error(`undefined state ${name} ${JSON.stringify(state)}`)
+    }
+
+    if (this.active === state.name) {
       state = this.getActive(this.active)
     } else {
-      this.stack.push(name)
-      this.active = name
+      this.stack.push(state.name)
+      this.active = state.name
     }
 
-    if (state instanceof State) {
-      var params = Array.prototype.slice.call(arguments, 1, arguments.length)
-      state.onEnter.apply(state, params)
-    }
-
+    var params = Array.prototype.slice.call(arguments, 1, arguments.length)
+    state.onEnter.apply(state, params)
   }
 
   /**

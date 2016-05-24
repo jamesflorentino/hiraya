@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import StateManager from '../../src/state_manager'
 import Point from '../../src/point'
+import State from '../../src/state'
 
 describe('StateManager', function() {
   var stateManager = new StateManager()
@@ -12,7 +13,7 @@ describe('StateManager', function() {
 
     it('adds a callback function', function() {
       stateManager.add('stand', () => 'foo')
-      assert.isFunction(stateManager.states.stand)
+      assert.instanceOf(stateManager.states.stand, State)
     })
   })
 
